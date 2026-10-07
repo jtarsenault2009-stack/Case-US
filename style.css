@@ -9,66 +9,185 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: #030303;
+  background: #020202;
   color: #eeeeee;
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
+
+/* =========================
+   BACKGROUND
+========================= */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+
+  background:
+    radial-gradient(
+      circle at 50% 15%,
+      rgba(120, 0, 10, 0.35),
+      transparent 45%
+    ),
+    #020202;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+
+  background:
+    radial-gradient(
+      ellipse,
+      transparent 35%,
+      rgba(0, 0, 0, 0.85) 100%
+    );
+}
+
+/* CRT scanlines */
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 3px,
+      rgba(255, 255, 255, 0.025) 4px
+    );
+}
+
+/* Screen vignette */
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;
+
+  box-shadow:
+    inset 0 0 120px rgba(0, 0, 0, 0.85);
+}
+
+/* Red flash */
+
+#flash {
+  position: fixed;
+  inset: 0;
+  background: rgba(180, 0, 0, 0.25);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 98;
+}
+
+#flash.active {
+  animation: flash 0.4s ease;
+}
+
+
+/* =========================
+   MAIN
+========================= */
 
 main {
   width: 100%;
   max-width: 760px;
   min-height: 100vh;
+
   margin: auto;
-  padding: 25px 20px 60px;
+  padding: 24px 20px 70px;
+
   background:
     radial-gradient(
-      circle at 50% 15%,
-      #27080b 0%,
-      #0b0808 40%,
+      circle at 50% 10%,
+      #26080b 0%,
+      #0c0708 35%,
       #030303 75%
     );
-  position: relative;
-  overflow: hidden;
 }
 
+
+/* =========================
+   HEADER
+========================= */
+
 header {
+  display: flex;
+  justify-content: space-between;
+
   border-bottom: 1px solid #292929;
+
   padding-bottom: 14px;
-  color: #777777;
+
+  color: #666;
   font-family: monospace;
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 2px;
 }
 
-header span {
-  float: right;
-  color: #a52a32;
+.classified {
+  color: #a82b34;
+  animation: blink 1.5s infinite;
 }
+
+
+/* =========================
+   SCREENS
+========================= */
 
 .screen {
   display: none;
+
   min-height: 75vh;
-  padding-top: 15vh;
-  animation: screenIn 0.45s ease;
+
+  padding-top: 12vh;
+
+  animation:
+    screenIn 0.5s ease;
 }
 
 .screen.active {
   display: block;
 }
 
+
+/* =========================
+   TEXT
+========================= */
+
 .eyebrow {
-  color: #b72c35;
+  color: #c22f38;
+
   font-family: monospace;
+
   font-size: 11px;
+
   letter-spacing: 3px;
+
   margin-bottom: 25px;
 }
 
 h1 {
   margin: 20px 0 30px;
-  font-size: clamp(58px, 16vw, 105px);
-  line-height: 0.85;
-  letter-spacing: -5px;
+
+  font-size: clamp(60px, 16vw, 110px);
+
+  line-height: 0.82;
+
+  letter-spacing: -6px;
+
+  text-shadow:
+    0 0 25px rgba(200, 30, 40, 0.15);
 }
 
 h1 strong {
@@ -77,44 +196,97 @@ h1 strong {
 
 h2 {
   margin-bottom: 20px;
+
   font-size: 30px;
+
   letter-spacing: 2px;
 }
 
 p {
-  color: #a5a5a5;
+  color: #999;
+
   line-height: 1.7;
 }
+
+.subtitle {
+  max-width: 500px;
+}
+
+.clue {
+  padding: 15px;
+
+  border-left: 2px solid #8f252c;
+
+  background: rgba(100, 0, 10, 0.08);
+
+  color: #777;
+
+  font-family: monospace;
+
+  font-size: 12px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
 
 button,
 input {
   width: 100%;
+
   padding: 17px;
+
   margin-top: 12px;
-  border: 1px solid #602127;
-  background: #100708;
-  color: #eeeeee;
+
+  border: 1px solid #552027;
+
+  background: #0d0607;
+
+  color: #eee;
+
   font-family: monospace;
+
   font-size: 13px;
+
   letter-spacing: 1px;
 }
 
 button {
   cursor: pointer;
+
   transition:
-    background 0.2s ease,
     transform 0.2s ease,
-    border-color 0.2s ease;
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 button:hover {
-  background: #5c2026;
-  border-color: #9d3038;
+  background: #4b171d;
+
+  border-color: #b72c35;
+
   transform: translateY(-2px);
+
+  box-shadow:
+    0 0 20px rgba(190, 30, 40, 0.12);
 }
 
 button:active {
   transform: scale(0.98);
+}
+
+button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.45;
+
+  transform: none;
+}
+
+.lockedButton {
+  color: #666;
 }
 
 input {
@@ -123,138 +295,504 @@ input {
 
 input:focus {
   border-color: #c92f38;
-  box-shadow: 0 0 15px rgba(201, 47, 56, 0.15);
+
+  box-shadow:
+    0 0 20px rgba(201, 47, 56, 0.12);
 }
+
+
+/* =========================
+   LOCKS
+========================= */
+
+.lock,
+.bigLock {
+  font-size: 40px;
+
+  margin-bottom: 20px;
+
+  animation:
+    lockPulse 2s infinite;
+}
+
+.bigLock {
+  font-size: 55px;
+}
+
+
+/* =========================
+   MESSAGES
+========================= */
 
 .message {
   min-height: 25px;
+
   margin-top: 15px;
+
   color: #c92f38;
-  font-family: monospace;
-}
 
-.buttonGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-pre,
-.terminal {
-  margin-top: 20px;
-  padding: 20px;
-  min-height: 100px;
-  overflow-x: auto;
-  border: 1px solid #252525;
-  background: #010101;
-  color: #858585;
   font-family: monospace;
-  font-size: 12px;
-  line-height: 1.8;
-  white-space: pre-wrap;
-}
 
-.terminal p {
-  margin: 0;
-  color: #858585;
-  font-family: monospace;
   font-size: 12px;
 }
 
-.photos {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+#puzzleProgress {
+  margin-top: 20px;
+
+  color: #555;
+
+  font-family: monospace;
+
+  font-size: 11px;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.loading {
+  display: flex;
+
+  gap: 6px;
+
   margin: 30px 0;
 }
 
-.photo {
-  aspect-ratio: 1 / 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #302020;
-  background:
-    linear-gradient(
-      135deg,
-      #191919,
-      #080808
-    );
-  color: #555555;
-  font-family: monospace;
-  font-size: 11px;
-  position: relative;
-  overflow: hidden;
+.loading span {
+  width: 6px;
+  height: 6px;
+
+  background: #b52c35;
+
+  animation:
+    loading 1s infinite;
 }
 
-.photo::after {
-  content: "CLASSIFIED";
+.loading span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.loading span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+
+/* =========================
+   PUZZLE GRID
+========================= */
+
+.buttonGrid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+
+  margin-top: 25px;
+}
+
+
+/* =========================
+   FILE GRID
+========================= */
+
+.fileGrid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+
+  margin-top: 25px;
+}
+
+.fileGrid button {
+  min-height: 95px;
+
+  text-align: left;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+
+.fileGrid span {
+  color: #ddd;
+
+  font-size: 13px;
+}
+
+.fileGrid small {
+  color: #70232a;
+
+  font-family: monospace;
+}
+
+
+/* =========================
+   FILE OUTPUT
+========================= */
+
+.fileOutput {
+  margin-top: 20px;
+
+  padding: 22px;
+
+  min-height: 150px;
+
+  border: 1px solid #242424;
+
+  background: #010101;
+
+  color: #999;
+
+  white-space: pre-wrap;
+
+  font-family: monospace;
+
+  font-size: 12px;
+
+  line-height: 1.8;
+
+  animation: fadeIn 0.3s ease;
+}
+
+.hiddenClue {
+  color: #444;
+
+  font-family: monospace;
+
+  font-size: 10px;
+
+  text-align: center;
+
+  margin-top: 25px;
+}
+
+.hiddenClue span {
+  display: inline-block;
+
+  border: 1px solid #442026;
+
+  border-radius: 50%;
+
+  width: 18px;
+  height: 18px;
+
+  line-height: 17px;
+
+  color: #7a262d;
+}
+
+
+/* =========================
+   TERMINAL
+========================= */
+
+.terminal {
+  min-height: 220px;
+
+  padding: 20px;
+
+  background: #010101;
+
+  border: 1px solid #252525;
+
+  color: #777;
+
+  font-family: monospace;
+
+  font-size: 12px;
+
+  line-height: 1.9;
+
+  white-space: pre-wrap;
+
+  box-shadow:
+    inset 0 0 30px rgba(255, 0, 0, 0.025);
+}
+
+.terminalLine {
+  margin: 0;
+
+  color: #777;
+
+  font-family: monospace;
+}
+
+.terminalLine.success {
+  color: #c92f38;
+}
+
+
+/* =========================
+   PHOTOS
+========================= */
+
+.photoGrid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 12px;
+
+  margin: 30px 0;
+}
+
+.photoCard {
+  position: relative;
+
+  overflow: hidden;
+
+  aspect-ratio: 1 / 1;
+
+  border: 1px solid #362024;
+
+  background: #090909;
+}
+
+.photoCard img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  filter:
+    grayscale(15%)
+    contrast(1.05);
+
+  transition:
+    transform 0.4s ease,
+    filter 0.4s ease;
+}
+
+.photoCard:hover img {
+  transform: scale(1.06);
+
+  filter:
+    grayscale(0%)
+    contrast(1.1);
+}
+
+.photoCard span {
   position: absolute;
+
   bottom: 8px;
   left: 8px;
-  color: #68262b;
+
+  padding: 5px 7px;
+
+  background: rgba(0, 0, 0, 0.75);
+
+  color: #aaa;
+
+  font-family: monospace;
+
   font-size: 8px;
-  letter-spacing: 2px;
+
+  letter-spacing: 1px;
 }
 
-.finalMessage {
-  margin-top: 30px;
-  padding: 25px;
-  border-left: 2px solid #c92f38;
-  background: #0c0c0c;
-  box-shadow: 0 0 25px rgba(201, 47, 56, 0.08);
+.archiveNote {
+  padding: 15px;
+
+  margin-bottom: 20px;
+
+  border-left: 2px solid #9c2932;
+
+  background: #080808;
+
+  font-family: monospace;
+
+  font-size: 10px;
 }
 
-.finalMessage p {
-  color: #cccccc;
+.archiveNote p {
+  margin: 4px 0;
+
+  color: #777;
+}
+
+
+/* =========================
+   FINAL REVEAL
+========================= */
+
+.reveal {
+  text-align: center;
+
+  padding-top: 15vh;
+}
+
+.accessGranted {
+  color: #c92f38;
+
+  font-family: monospace;
+
+  letter-spacing: 4px;
+
+  font-size: 12px;
+
+  animation:
+    blink 1s infinite;
+}
+
+.glitchTitle {
+  position: relative;
+}
+
+.glitchTitle h1 {
+  margin-top: 35px;
 }
 
 .love {
   color: #c92f38;
-  font-size: 23px;
+
+  font-size: 22px;
+
   font-weight: bold;
 }
 
-.scanlines {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 3px,
-      rgba(255, 255, 255, 0.018) 4px
-    );
+.finalMessage {
+  margin-top: 35px;
+
+  padding: 25px;
+
+  text-align: left;
+
+  border-left: 2px solid #c92f38;
+
+  background: #0b0b0b;
+
+  box-shadow:
+    0 0 30px rgba(200, 30, 40, 0.08);
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      circle,
-      transparent 45%,
-      rgba(0, 0, 0, 0.65) 100%
-    );
-  z-index: 99;
+.finalMessage p {
+  color: #ccc;
 }
+
+.signature {
+  color: #c92f38 !important;
+
+  font-family: monospace;
+}
+
+.caseClosed {
+  margin-top: 35px;
+
+  color: #555;
+
+  font-family: monospace;
+
+  font-size: 10px;
+
+  line-height: 1.8;
+}
+
+.caseClosed strong {
+  color: #a52a32;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
 
 @keyframes screenIn {
+
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform:
+      translateY(20px)
+      scale(0.98);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform:
+      translateY(0)
+      scale(1);
   }
 }
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+
+  0%,
+  45%,
+  100% {
+    opacity: 1;
+  }
+
+  50%,
+  55% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes loading {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes lockPulse {
+
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes flash {
+
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 500px) {
 
@@ -264,26 +802,25 @@ body::before {
   }
 
   .screen {
-    padding-top: 12vh;
+    padding-top: 10vh;
   }
 
   h1 {
-    font-size: 62px;
+    font-size: 63px;
+
+    letter-spacing: -4px;
   }
 
   h2 {
-    font-size: 25px;
+    font-size: 24px;
   }
 
-  .buttonGrid {
+  .buttonGrid,
+  .fileGrid {
     grid-template-columns: 1fr;
   }
 
-  .photos {
+  .photoGrid {
     grid-template-columns: 1fr 1fr;
   }
-
-  .photo:last-child {
-    display: none;
-  }
-  }
+}
