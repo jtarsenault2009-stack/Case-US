@@ -10,42 +10,58 @@
 <body>
 
   <div class="scanlines"></div>
+  <div class="vignette"></div>
+  <div id="flash"></div>
 
   <main>
 
     <header>
-      CASE FILE #001
-      <span>CLASSIFIED</span>
+      <span>CASE FILE #001</span>
+      <span class="classified">CLASSIFIED</span>
     </header>
+
 
     <!-- INTRO -->
     <section id="intro" class="screen active">
-      <p class="eyebrow">SECURITY DATABASE</p>
+
+      <p class="eyebrow typing">SECURITY DATABASE</p>
 
       <h1>
         CASE:<br>
         <strong>US</strong>
       </h1>
 
-      <p>
+      <p class="subtitle">
         An unidentified investigation has been opened.
       </p>
 
-      <button onclick="showScreen('login')">
+      <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <button onclick="beginInvestigation()">
         BEGIN INVESTIGATION
       </button>
+
     </section>
 
 
-    <!-- NAME CHECK -->
+    <!-- LOGIN -->
     <section id="login" class="screen">
 
-      <p class="eyebrow">SECURITY CHECKPOINT</p>
+      <p class="eyebrow">SECURITY CHECKPOINT // 01</p>
+
+      <div class="lock">
+        🔒
+      </div>
 
       <h2>IDENTITY REQUIRED</h2>
 
       <p>
-        Enter the name of the person this investigation is about.
+        The investigation can only be accessed by the person
+        identified in the case file.
       </p>
 
       <input
@@ -72,8 +88,12 @@
       <h2>FIND THE BEGINNING</h2>
 
       <p>
-        Four memories were recovered.
-        Find the correct chronological order.
+        Four memories were recovered from the database.
+        They have been scrambled.
+      </p>
+
+      <p class="clue">
+        CLUE: Every story has a beginning.
       </p>
 
       <div class="buttonGrid">
@@ -96,12 +116,13 @@
 
       </div>
 
+      <p id="puzzleProgress"></p>
       <p id="puzzleMessage" class="message"></p>
 
     </section>
 
 
-    <!-- EVIDENCE ROOM -->
+    <!-- EVIDENCE -->
     <section id="evidence" class="screen">
 
       <p class="eyebrow">EVIDENCE ROOM // 02</p>
@@ -109,34 +130,49 @@
       <h2>CLASSIFIED FILES</h2>
 
       <p>
-        Four files were recovered from the investigation.
-        Something is hidden inside them.
+        Four files were recovered.
+        One clue from each file may be important.
       </p>
 
-      <div class="buttonGrid">
+      <div class="fileGrid">
 
         <button onclick="openFile('001')">
-          FILE_001
+          <span>FILE_001</span>
+          <small>ARCHIVE</small>
         </button>
 
         <button onclick="openFile('002')">
-          FILE_002
+          <span>FILE_002</span>
+          <small>PHOTO</small>
         </button>
 
         <button onclick="openFile('003')">
-          FILE_003
+          <span>FILE_003</span>
+          <small>PERSONAL</small>
         </button>
 
         <button onclick="openFile('004')">
-          FILE_004
+          <span>FILE_004</span>
+          <small>CLASSIFIED</small>
         </button>
 
       </div>
 
-      <pre id="fileOutput"></pre>
+      <div id="fileOutput" class="fileOutput">
+        SELECT A FILE.
+      </div>
 
-      <button onclick="showScreen('terminal')">
-        ACCESS TERMINAL
+      <p class="hiddenClue">
+        <span>?</span> There may be something hidden in the files.
+      </p>
+
+      <button
+        id="terminalButton"
+        class="lockedButton"
+        onclick="goToTerminal()"
+        disabled
+      >
+        🔒 TERMINAL LOCKED
       </button>
 
     </section>
@@ -145,32 +181,26 @@
     <!-- TERMINAL -->
     <section id="terminal" class="screen">
 
-      <p class="eyebrow">REMOTE TERMINAL</p>
+      <p class="eyebrow">REMOTE TERMINAL // 03</p>
 
-      <div class="terminal">
+      <div class="terminal" id="terminalText"></div>
 
-        <p>> CONNECTING TO DATABASE...</p>
-        <p>> CONNECTION ESTABLISHED.</p>
-        <p>> ACCESS LEVEL: CLASSIFIED</p>
-        <p>> FILES FOUND: 006</p>
-        <p>> MEMORY ARCHIVE FOUND.</p>
-        <p>> FINAL CLUE: HIDDEN.</p>
-        <p>> AWAITING PASSWORD...</p>
+      <div id="terminalInputArea" class="hidden">
+
+        <input
+          id="codeInput"
+          type="text"
+          placeholder="ENTER PASSWORD"
+          autocomplete="off"
+        >
+
+        <button onclick="checkCode()">
+          DECRYPT
+        </button>
+
+        <p id="codeMessage" class="message"></p>
 
       </div>
-
-      <input
-        id="codeInput"
-        type="text"
-        placeholder="ENTER PASSWORD"
-        autocomplete="off"
-      >
-
-      <button onclick="checkCode()">
-        DECRYPT
-      </button>
-
-      <p id="codeMessage" class="message"></p>
 
     </section>
 
@@ -178,7 +208,7 @@
     <!-- MEMORY ARCHIVE -->
     <section id="memories" class="screen">
 
-      <p class="eyebrow">CASE ARCHIVE</p>
+      <p class="eyebrow">CASE ARCHIVE // 04</p>
 
       <h2>THE EVIDENCE</h2>
 
@@ -186,33 +216,50 @@
         The investigation was never really about a case.
       </p>
 
-      <div class="photos">
+      <div class="photoGrid">
 
-        <div class="photo">
-          PHOTO 01
+        <div class="photoCard">
+          <img src="images/photo1.jpg" alt="Evidence photo 1">
+          <span>EVIDENCE_01</span>
         </div>
 
-        <div class="photo">
-          PHOTO 02
+        <div class="photoCard">
+          <img src="images/photo2.jpg" alt="Evidence photo 2">
+          <span>EVIDENCE_02</span>
         </div>
 
-        <div class="photo">
-          PHOTO 03
+        <div class="photoCard">
+          <img src="images/photo3.jpg" alt="Evidence photo 3">
+          <span>EVIDENCE_03</span>
+        </div>
+
+        <div class="photoCard">
+          <img src="images/photo4.jpg" alt="Evidence photo 4">
+          <span>EVIDENCE_04</span>
         </div>
 
       </div>
 
+      <div class="archiveNote">
+        <p>ARCHIVE STATUS: COMPLETE</p>
+        <p>CASE CONNECTION: CONFIRMED</p>
+      </div>
+
       <button onclick="showScreen('final')">
-        CONTINUE
+        CONTINUE INVESTIGATION
       </button>
 
     </section>
 
 
-    <!-- FINAL LOCK -->
+    <!-- FINAL QUESTION -->
     <section id="final" class="screen">
 
-      <p class="eyebrow">FINAL SECURITY CHECK</p>
+      <p class="eyebrow">FINAL SECURITY CHECK // 05</p>
+
+      <div class="bigLock">
+        🔐
+      </div>
 
       <h2>ONE QUESTION REMAINS.</h2>
 
@@ -224,11 +271,14 @@
         id="finalAnswer"
         type="text"
         placeholder="ENTER ANSWER"
+        autocomplete="off"
       >
 
-      <button onclick="showScreen('reveal')">
+      <button onclick="checkFinalAnswer()">
         SUBMIT ANSWER
       </button>
+
+      <p id="finalMessage" class="message"></p>
 
     </section>
 
@@ -236,12 +286,18 @@
     <!-- FINAL REVEAL -->
     <section id="reveal" class="screen reveal">
 
-      <p class="eyebrow">ACCESS GRANTED</p>
+      <div class="accessGranted">
+        ACCESS GRANTED
+      </div>
 
-      <h1>
-        CASE<br>
-        <strong>CLOSED.</strong>
-      </h1>
+      <div class="glitchTitle">
+
+        <h1>
+          CASE<br>
+          <strong>CLOSED.</strong>
+        </h1>
+
+      </div>
 
       <p class="love">
         But this story isn't.
@@ -250,13 +306,27 @@
       <div class="finalMessage">
 
         <p>
-          Replace this with your actual message to her.
+          Hi baby,
         </p>
 
         <p>
-          This is where the final surprise goes.
+          This entire investigation was made for you.
+          Every clue, every file, and every memory led to this moment.
         </p>
 
+        <p>
+          I hope you know how much you mean to me.
+        </p>
+
+        <p class="signature">
+          — Your favorite investigator
+        </p>
+
+      </div>
+
+      <div class="caseClosed">
+        CASE #001<br>
+        STATUS: <strong>FOREVER OPEN</strong>
       </div>
 
     </section>
