@@ -1,1 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASE: US</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+  <div class="scanlines"></div>
+
+  <main>
+
+    <header>
+      CASE FILE #001
+      <span>CLASSIFIED</span>
+    </header>
+
+    <!-- INTRO -->
+    <section id="intro" class="screen active">
+      <p class="eyebrow">SECURITY DATABASE</p>
+
+      <h1>
+        CASE:<br>
+        <strong>US</strong>
+      </h1>
+
+      <p>
+        An unidentified investigation has been opened.
+      </p>
+
+      <button onclick="showScreen('login')">
+        BEGIN INVESTIGATION
+      </button>
+    </section>
+
+
+    <!-- NAME CHECK -->
+    <section id="login" class="screen">
+
+      <p class="eyebrow">SECURITY CHECKPOINT</p>
+
+      <h2>IDENTITY REQUIRED</h2>
+
+      <p>
+        Enter the name of the person this investigation is about.
+      </p>
+
+      <input
+        id="nameInput"
+        type="text"
+        placeholder="ENTER NAME"
+        autocomplete="off"
+      >
+
+      <button onclick="verifyName()">
+        VERIFY IDENTITY
+      </button>
+
+      <p id="nameMessage" class="message"></p>
+
+    </section>
+
+
+    <!-- MEMORY PUZZLE -->
+    <section id="puzzle" class="screen">
+
+      <p class="eyebrow">EVIDENCE ROOM // 01</p>
+
+      <h2>FIND THE BEGINNING</h2>
+
+      <p>
+        Four memories were recovered.
+        Find the correct chronological order.
+      </p>
+
+      <div class="buttonGrid">
+
+        <button onclick="chooseMemory(1)">
+          MEMORY A
+        </button>
+
+        <button onclick="chooseMemory(2)">
+          MEMORY B
+        </button>
+
+        <button onclick="chooseMemory(3)">
+          MEMORY C
+        </button>
+
+        <button onclick="chooseMemory(4)">
+          MEMORY D
+        </button>
+
+      </div>
+
+      <p id="puzzleMessage" class="message"></p>
+
+    </section>
+
+
+    <!-- EVIDENCE ROOM -->
+    <section id="evidence" class="screen">
+
+      <p class="eyebrow">EVIDENCE ROOM // 02</p>
+
+      <h2>CLASSIFIED FILES</h2>
+
+      <p>
+        Four files were recovered from the investigation.
+        Something is hidden inside them.
+      </p>
+
+      <div class="buttonGrid">
+
+        <button onclick="openFile('001')">
+          FILE_001
+        </button>
+
+        <button onclick="openFile('002')">
+          FILE_002
+        </button>
+
+        <button onclick="openFile('003')">
+          FILE_003
+        </button>
+
+        <button onclick="openFile('004')">
+          FILE_004
+        </button>
+
+      </div>
+
+      <pre id="fileOutput"></pre>
+
+      <button onclick="showScreen('terminal')">
+        ACCESS TERMINAL
+      </button>
+
+    </section>
+
+
+    <!-- TERMINAL -->
+    <section id="terminal" class="screen">
+
+      <p class="eyebrow">REMOTE TERMINAL</p>
+
+      <div class="terminal">
+
+        <p>> CONNECTING TO DATABASE...</p>
+        <p>> CONNECTION ESTABLISHED.</p>
+        <p>> ACCESS LEVEL: CLASSIFIED</p>
+        <p>> FILES FOUND: 006</p>
+        <p>> MEMORY ARCHIVE FOUND.</p>
+        <p>> FINAL CLUE: HIDDEN.</p>
+        <p>> AWAITING PASSWORD...</p>
+
+      </div>
+
+      <input
+        id="codeInput"
+        type="text"
+        placeholder="ENTER PASSWORD"
+        autocomplete="off"
+      >
+
+      <button onclick="checkCode()">
+        DECRYPT
+      </button>
+
+      <p id="codeMessage" class="message"></p>
+
+    </section>
+
+
+    <!-- MEMORY ARCHIVE -->
+    <section id="memories" class="screen">
+
+      <p class="eyebrow">CASE ARCHIVE</p>
+
+      <h2>THE EVIDENCE</h2>
+
+      <p>
+        The investigation was never really about a case.
+      </p>
+
+      <div class="photos">
+
+        <div class="photo">
+          PHOTO 01
+        </div>
+
+        <div class="photo">
+          PHOTO 02
+        </div>
+
+        <div class="photo">
+          PHOTO 03
+        </div>
+
+      </div>
+
+      <button onclick="showScreen('final')">
+        CONTINUE
+      </button>
+
+    </section>
+
+
+    <!-- FINAL LOCK -->
+    <section id="final" class="screen">
+
+      <p class="eyebrow">FINAL SECURITY CHECK</p>
+
+      <h2>ONE QUESTION REMAINS.</h2>
+
+      <p>
+        Why was this entire investigation created?
+      </p>
+
+      <input
+        id="finalAnswer"
+        type="text"
+        placeholder="ENTER ANSWER"
+      >
+
+      <button onclick="showScreen('reveal')">
+        SUBMIT ANSWER
+      </button>
+
+    </section>
+
+
+    <!-- FINAL REVEAL -->
+    <section id="reveal" class="screen reveal">
+
+      <p class="eyebrow">ACCESS GRANTED</p>
+
+      <h1>
+        CASE<br>
+        <strong>CLOSED.</strong>
+      </h1>
+
+      <p class="love">
+        But this story isn't.
+      </p>
+
+      <div class="finalMessage">
+
+        <p>
+          Replace this with your actual message to her.
+        </p>
+
+        <p>
+          This is where the final surprise goes.
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
